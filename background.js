@@ -1,3 +1,4 @@
+/*
 function sendKoRequest() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         var options = {
@@ -21,4 +22,28 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 chrome.contextMenus.onClicked.addListener(function (clickInfo) {
     sendKoRequest();
 });
+*/
 
+//Funktionen
+function injectScript(script) {
+    chrome.tabs.executeScript({
+        file: script
+    });
+}
+
+//Listener
+chrome.contextMenus.onClicked.addListener(function (clickInfo) {
+    if (clickInfo.menuItemId === 'KnockoutInfo') {
+        injectScript('contentScript.js');
+    }
+});
+chrome.runtime.onMessage.addListener(function (message, sender, sendReply) {
+    if (sender.id === 'KnockoutInfo') {
+        if (message.source === 'KnockoutInfo' && message.type === 'KODATA') {
+            console.log(message.data);
+        }
+    }
+});
+
+//Code
+chrome.contextMenus.create({ title: "Knockout Info", id: "KnockoutInfo" });
