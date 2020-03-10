@@ -1,21 +1,21 @@
 // --------------------- Globals -------------------------------
-var INJREQUEST = {
+var printInstruction = {
     source: 'KnockoutInfo',
-    type: 'INJREQUEST',
-    file: chrome.extension.getURL('injection.js')
+    type: 'PRINTINSTR'
 }
 
 // --------------------- Funktionen ----------------------------
-function sendInjection(file) {
+/** Schickt Ausgabeanweisung an aktiven Tab */
+function sendActiveTabMessage(message) {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, INJREQUEST);
+        chrome.tabs.sendMessage(tabs[0].id, message);
     });
 }
 
 // --------------------- Listener ------------------------------
 chrome.contextMenus.onClicked.addListener(function (clickInfo) {
     if (clickInfo.menuItemId == 'KnockoutInfo') {
-        sendInjection('injection.js');
+        sendActiveTabMessage(printInstruction);
     }
 });
 

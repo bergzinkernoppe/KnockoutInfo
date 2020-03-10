@@ -2,10 +2,15 @@
 var clickedNode;
 
 // --------------------- Funktionen ----------------------------
+/** Holt Knockout-Daten für übergebenes DOM-Objekt */
 function getKoData(node) {
-    var ko = requirejs('knockout');
-    var koData = ko.dataFor(node);
-    return koData; // koData ist leer wenn domElement keine data-bindings hat
+    try {
+        var ko = requirejs('knockout');
+        var koData = ko.dataFor(node);
+        return koData; // koData ist leer wenn domElement keine data-bindings hat
+    } catch (err) {
+        return "No binded data available for selected Element!";
+    }
 }
 
 // --------------------- Listener ------------------------------
@@ -18,10 +23,17 @@ document.addEventListener('mousedown', function (event) { // mousedown anstatt c
         clickedNode = event.target;
     }
 });
+window.addEventListener('message', function (event) {
+    if (!window == event.source)
+        return;
+    var message = event.data;
+    if (!message.source == 'KnockoutInfo')
+        return;
+    if (message.type == 'PRINTKO') {
+        // Textausgabe
+        console.log("Knockout data:");
+        console.log(getKoData(clickedNode));
+    }
+}, false);
 
 // --------------------- Code ----------------------------------
-try {
-    alert(JSON.stringify(getKoData(clickedNode)));
-} catch (err) {
-    alert("No binded data available for selected Element!\nError message: " + err.message);
-}

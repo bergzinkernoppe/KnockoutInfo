@@ -1,6 +1,10 @@
 // --------------------- Globals -------------------------------
-
+var printKoData = {
+    source: 'KnockoutInfo',
+    type: 'PRINTKO'
+}
 // --------------------- Funktionen ----------------------------
+/** Injiziert den Skript 'file' in den Bereich 'node' des Dokuments in dem sich die Funktion befindet */
 function injectScript(file, node) {
     var th = document.getElementsByTagName(node)[0];
     var s = document.createElement('script');
@@ -8,18 +12,23 @@ function injectScript(file, node) {
     s.setAttribute('src', file);
     th.appendChild(s);
 }
+/** Schickt eine Nachricht 'message' an Skript-ausfuehrendes Fenster */
+function sendWindowMessage(message) {
+    window.postMessage(message, '*');
+}
 
 // --------------------- Listener ------------------------------
 chrome.runtime.onMessage.addListener(function (message, sender, sendReply) {
     if (!message.source == 'KnockoutInfo')
         return;
-    if (message.type == 'INJREQUEST') {
-        injectScript(message.file, 'body');
+    if (message.type == 'PRINTINSTR') {
+        sendWindowMessage(printKoData);
     }
 })
 
+
 // --------------------- Code ----------------------------------------
-console.log("look dad im useful");
+injectScript(chrome.runtime.getURL('injection.js'), 'body');
 
 
 
