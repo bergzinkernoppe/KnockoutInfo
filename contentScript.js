@@ -39,32 +39,62 @@ window.addEventListener('message', function (e) {
 injectScript(chrome.extension.getURL('injection.js'), 'body');
 */
 
+//Globals
+var INJREPLY = {
+    source: 'KnockoutInfo',
+    type: 'INJREPlY',
+    result: ''
+}
+var NODEREPLY = {
+    source: 'KnockoutInfo',
+    type: 'NODEREPLY',
+    result: ''
+}
+var REQKODATA = {
+    source: 'KnockoutInfo',
+    type: 'REQKODATA',
+    node: ''
+}
+
 //Funktionen
-function getKoData(domElement) {
-    var ko = requirejs('knockout');
-    var koData = ko.dataFor(domElement);
-    return koData; // koData ist leer wenn domElement keine data-bindings hat
+function injectScript(file, node) {
+    var th = document.getElementsByTagName(node)[0];
+    var s = document.createElement('script');
+    s.setAttribute('type', 'text/javascript');
+    s.setAttribute('src', file);
+    th.appendChild(s);
 }
-
-function sendKoData(koData) {
-    var message = {
-        source: 'KnockoutInfo',
-        type: 'KODATA',
-        data: JSON.stringify(koData) // wirft error wenn koData leer ist
-    }
-    chrome.runtime.sendMessage('KnockoutInfo', message);
+function reqKoData() {
+    window.postMessage(REQKODATA, '*');
 }
-
-//Listener
-document.addEventListener('mousedown', function (event) { // mousedown anstatt contextmenu weil contextmenu schon während laden möglich ist
-    //rechts-click
-    if (event.button == 2) {
-        sendKoData(getKoData(event.target));
+chrome.runtime.onMessage.addListener(function (message, sender, sendReply) {
+    if (!message.source == 'KnockoutInfo')
+        return;
+    if (message.type == 'INJREQUEST') {
+        try {
+            injectScript(message.file, 'body');
+            INJREPLY.result = 'Successfully injected ' + message.file;
+        } catch (err) {
+            console.log('Injection failure: ' + err);
+            INJREPLY.result = 'Failed injection of ' + message.file;
+        }
+        sendReply(INJREPLY);
     }
-});
+    else if (message.type == 'SENDSELNODE') {
+        try {
+            reqKoData();
+            NODEREPLY.result = 'Successfully sent node "' + REQKODATA.node + '"';
+        } catch (err) {
+            console.log('SendNode failure: ' + err);
+            NODEREPLY.result = 'Failed to send node "' + REQKODATA.node + '"';
+        }
+        sendReply(NODEREPLY);
+    }
+})
+
 
 //Code
-
+console.log("look dad im useful");
 
 
 

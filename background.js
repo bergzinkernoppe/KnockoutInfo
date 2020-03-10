@@ -24,24 +24,57 @@ chrome.contextMenus.onClicked.addListener(function (clickInfo) {
 });
 */
 
+//Globals
+var INJREQUEST = {
+    source: 'KnockoutInfo',
+    type: 'INJREQUEST',
+    file: chrome.extension.getURL('injection.js')
+}
+var SENDSELNODE = {
+    source: 'KnockoutInfo',
+    type: 'SENDSELNODE'
+}
+
 //Funktionen
-function injectScript(script) {
-    chrome.tabs.executeScript({
-        file: script
+/*
+function contentConnection() {;
+    var TabId;
+    chrome.tabs.query({ currentWindow: true, active: true }, function (tabArray) {
+        TabId = tabArray[0];
+    });
+    var port = chrome.tabs.connect(TabId, { name: "KnockoutConnection" });
+    port.postMessage(REQINJECTION);
+    port.onMessage.addListener(function (msg) {
+        if (msg.source == 'KnockoutInfo') {
+            if (msg.type == 'REPINJECTION') {
+                port.postMessage(SENDSELECTEDNODE);
+            }
+        }
+    });
+}
+*/
+function sendInjection(file) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, INJREQUEST, function (response) {
+            if (response.source == 'KnockoutInfo' && response.type == 'INJREPLY')
+                console.log(response.result);
+        });
+    });
+}
+function sendSelNode() {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, SENDSELNODE, function (response) {
+            if (response.source == 'KnockoutInfo')
+                console.log(response.result);
+        });
     });
 }
 
 //Listener
 chrome.contextMenus.onClicked.addListener(function (clickInfo) {
-    if (clickInfo.menuItemId === 'KnockoutInfo') {
-        injectScript('contentScript.js');
-    }
-});
-chrome.runtime.onMessage.addListener(function (message, sender, sendReply) {
-    if (sender.id === 'KnockoutInfo') {
-        if (message.source === 'KnockoutInfo' && message.type === 'KODATA') {
-            console.log(message.data);
-        }
+    if (clickInfo.menuItemId == 'KnockoutInfo') {
+        sendInjection('injection.js');
+        //sendSelNode();
     }
 });
 

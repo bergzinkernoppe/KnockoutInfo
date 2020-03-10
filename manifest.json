@@ -7,6 +7,15 @@
     "persistent": false,
     "scripts": [ "background.js" ]
   },
+  "content_scripts": [
+    {
+      "matches": [ "http://vm10060/*" ],
+      "js": [ "contentScript.js" ]
+    }
+  ],
+  "web_accessible_resources": [
+    "injection.js"
+  ],
   "browser_action": {
     "default_icon": {
       "16": "images/get_started16.png",
