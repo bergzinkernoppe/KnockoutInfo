@@ -7,20 +7,27 @@
     "persistent": false,
     "scripts": [ "background.js" ]
   },
+  "content_scripts": [
+    {
+      "matches": [ "http://vm10060/*" ],
+      "js": [ "contentScript.js" ]
+    }
+  ],
+  "web_accessible_resources": [ "injection.js" ],
   "browser_action": {
     "default_icon": {
-      "16": "images/get_started16.png",
-      "32": "images/get_started32.png",
-      "48": "images/get_started48.png",
-      "128": "images/get_started128.png"
+      "16": "images/KoI_Logo_16.png",
+      "32": "images/KoI_Logo_32.png",
+      "48": "images/KoI_Logo_48.png",
+      "128": "images/KoI_Logo_128.png"
     },
     "default_popup": "popup/popup.html"
   },
   "icons": {
-    "16": "images/get_started16.png",
-    "32": "images/get_started32.png",
-    "48": "images/get_started48.png",
-    "128": "images/get_started128.png"
+    "16": "images/KoI_Logo_16.png",
+    "32": "images/KoI_Logo_32.png",
+    "48": "images/KoI_Logo_48.png",
+    "128": "images/KoI_Logo_128.png"
   },
   "manifest_version": 2
 }

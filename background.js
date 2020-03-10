@@ -1,23 +1,23 @@
-//Funktionen
-function injectScript(script) { // Skript darf keine ä, ö, ü, ß, etc. enthalten, sonst compiler error (danke chrome <3)
-    chrome.tabs.executeScript({
-        file: script
+// --------------------- Globals -------------------------------
+var printInstruction = {
+    source: 'KnockoutInfo',
+    type: 'PRINTINSTR'
+}
+
+// --------------------- Funktionen ----------------------------
+/** Schickt Ausgabeanweisung an aktiven Tab */
+function sendActiveTabMessage(message) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, message);
     });
 }
 
-//Listener
+// --------------------- Listener ------------------------------
 chrome.contextMenus.onClicked.addListener(function (clickInfo) {
-    if (clickInfo.menuItemId === 'KnockoutInfo') {
-        injectScript('content.js');
-    }
-});
-chrome.runtime.onMessage.addListener(function (message, sender, sendReply) {
-    if (sender.id === 'KnockoutInfo') {
-        if (message.source === 'KnockoutInfo' && message.type === 'KODATA') {
-            console.log(message.data);
-        }
+    if (clickInfo.menuItemId == 'KnockoutInfo') {
+        sendActiveTabMessage(printInstruction);
     }
 });
 
-//Code
+// --------------------- Code ----------------------------------
 chrome.contextMenus.create({ title: "Knockout Info", id: "KnockoutInfo" });
