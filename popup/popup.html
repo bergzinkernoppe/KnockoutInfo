@@ -9,28 +9,60 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        h2{
-            font-family: 'Segoe UI Light';
-            background-color: red;
-            color: white;
-            width: 100%;
-            padding: 10px 0px 10px 0px;
-            text-align: center;
-        }
-        main{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
         body{
             width: 300px;
             height: 300px;
         }
+        .heading{
+            font-family: 'Segoe UI Light';
+            font-size: 24px;
+            background-color: red;
+            width: 100%;
+            padding: 10px 0px 10px 0px;
+            text-align: center;
+        }
+        .textblack{color: black;}
+        .textblack{color: white;}
+        main{
+            margin-top: 5px;
+            margin-bottom: 5px;
+            width: 100%;
+            height: 250px;
+            box-shadow: 2px 2px 3px 3px lightgrey inset;
+        }
+        table{
+            margin: 5px 0px 0px 5px;
+        }
     </style>
 </head>
 <body>
-    <!-- main soll basic info zu extension anzeigen -->
-        <h2>Knockout Info</h2>
+    <div class="heading">
+        <span class="textwhite">Knockout</span><span class="textblack">Info-Info</span>
+    </div>
+    <main>
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>KnockoutInfo</td>
+            </tr>
+            <tr>
+                <td>Version:</td>
+                <td>1.1</td>
+            </tr>
+            <tr>
+                <td>Manifest-Version:</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Beschreibung:</td>
+                <td>Zeigt Knockout.js-Daten zu ausgewählten DOM-Objekten</td>
+            </tr>
+            <tr>
+                <td>Wissenswertes:</td>
+                <td>Funktioniert bisher nur auf "http://vm10060/"</td>
+            </tr>
+        </table>
+    </main>
     <script src="popup.js"></script>
 </body>
 </html>
