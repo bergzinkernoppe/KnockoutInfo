@@ -1,6 +1,6 @@
 {
   "name": "KnockoutInfo",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Shows Info to HTML-Elements",
   "permissions": [ "contextMenus", "tabs", "activeTab" ],
   "background": {

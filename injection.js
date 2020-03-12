@@ -1,4 +1,5 @@
 // --------------------- Globals -------------------------------
+/** Mit rechter Maustaste geklicktes DOM-Element */
 var clickedNode;
 
 // --------------------- Funktionen ----------------------------
