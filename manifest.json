@@ -21,7 +21,7 @@
       "48": "images/KoI_Logo_48.png",
       "128": "images/KoI_Logo_128.png"
     },
-    "default_popup": "popup/popup.html"
+    "default_popup": "popup.html"
   },
   "icons": {
     "16": "images/KoI_Logo_16.png",
