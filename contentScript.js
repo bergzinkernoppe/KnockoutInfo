@@ -1,7 +1,8 @@
 // --------------------- Globals -------------------------------
 var printKoData = {
     source: 'KnockoutInfo',
-    type: 'PRINTKO'
+    type: 'PRINTKO',
+    printType: ''
 }
 // --------------------- Funktionen ----------------------------
 /** Injiziert den Skript 'file' in den Bereich 'node' des Dokuments in dem sich die Funktion befindet */
@@ -22,6 +23,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendReply) {
     if (!message.source == 'KnockoutInfo')
         return;
     if (message.type == 'PRINTINSTR') {
+        printType = message.printType;
         sendWindowMessage(printKoData);
     }
 })

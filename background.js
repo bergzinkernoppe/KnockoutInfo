@@ -1,7 +1,8 @@
 // --------------------- Globals -------------------------------
 var printInstruction = {
     source: 'KnockoutInfo',
-    type: 'PRINTINSTR'
+    type: 'PRINTINSTR',
+    printType: ''
 }
 
 // --------------------- Funktionen ----------------------------
@@ -15,6 +16,9 @@ function sendActiveTabMessage(message) {
 // --------------------- Listener ------------------------------
 chrome.contextMenus.onClicked.addListener(function (clickInfo) {
     if (clickInfo.menuItemId == 'KnockoutInfo') {
+        chrome.storage.sync.get('output', function (items) {
+            printInstruction.printType = items.output;
+        });
         sendActiveTabMessage(printInstruction);
     }
 });

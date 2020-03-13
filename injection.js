@@ -13,6 +13,14 @@ function getKoData(node) {
         return "No binded data available for selected Element!";
     }
 }
+function printKoData(printType,koData) {
+    if (printType == 'alert') {
+        alert(koData);
+    } else {
+        console.log("Knockout data:");
+        console.log(koData);
+    }
+}
 
 // --------------------- Listener ------------------------------
 /* geklicktes Element muss hier ausgelesen werden, weil background keinen Zugriff auf DOM hat und 
@@ -31,9 +39,7 @@ window.addEventListener('message', function (event) {
     if (!message.source == 'KnockoutInfo')
         return;
     if (message.type == 'PRINTKO') {
-        // Textausgabe
-        console.log("Knockout data:");
-        console.log(getKoData(clickedNode));
+        printKoData(message.printType, getKoData(clickedNode));
     }
 }, false);
 

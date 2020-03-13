@@ -2,7 +2,7 @@
   "name": "KnockoutInfo",
   "version": "1.2",
   "description": "Shows Info to HTML-Elements",
-  "permissions": [ "contextMenus", "tabs", "activeTab" ],
+  "permissions": [ "contextMenus", "tabs", "activeTab", "storage" ],
   "background": {
     "persistent": false,
     "scripts": [ "background.js" ]
